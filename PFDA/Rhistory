@@ -1,0 +1,512 @@
+fjob = sampleData %>%
+select(F_job,Status)%>%
+count(F_job,Status)
+fjob
+ggplot(fjob, aes(x = F_job, y = n, fill = Status)) +
+geom_bar(stat = "identity", position = "dodge") +
+geom_text(aes(label = n)) +
+labs(title = "Relationship between Father Job and Placement Status",
+x = "Father Job", y = "Frequency", fill = "Placement Status") +
+scale_fill_manual(values = c("#B2DFDB", "#4DB6AC"))
+mjob = sampleData %>%
+select(M_job,Status)%>%
+count(M_job,Status)
+mjob
+ggplot(mjob, aes(x = M_job, y = n, fill = Status)) +
+geom_bar(stat = "identity", position = "dodge") +
+geom_text(aes(label = n)) +
+labs(title = "Relationship between Mother Job and Placement Status",
+x = "Mother Job", y = "Frequency", fill = "Placement Status") +
+scale_fill_manual(values = c("#D1C4E9", "#9575CD"))
+fam_stat = sampleData %>%
+select(FamSup,Status)%>%
+count(FamSup,Status)
+fam_stat
+ggplot(fam_stat, aes(x = FamSup, y = n)) +
+geom_segment(aes(x=FamSup, xend=FamSup, y=0, yend=n, color=Status), linewidth=4) +
+geom_point(size = 13, color = "black") +
+geom_text(aes(label = n),color="white") +
+labs(title = "Connection between Family Support and Placement Status",
+x = "Family Support", y = "Frequency", color = "Status") +
+scale_color_manual(values = c("#303F9F", "#0097A7")) +
+facet_wrap(~Status) +
+theme_minimal()
+Work_ex = sampleData %>%
+select(Work_ex,Status)%>%
+count(Work_ex,Status)
+Work_ex
+ggplot(Work_ex, aes(x=Work_ex, y=n, fill=Status)) +
+geom_bar(position="dodge", stat="identity") + geom_label(aes(label=n)) +
+labs(title = "Relationship between Work Experience and Job Placement",
+x = "Working Experience", y = "Count") +
+scale_fill_manual(values = c("#FFB74D", "#E65100"))
+Fjob = sampleData %>%
+select(F_job)%>%
+count(F_job)
+Fjob
+pie3D(Fjob$n, labels=paste(Fjob$F_job,":",Fjob$n),
+main="3D Pie Chart for Dad's Job", explode=.3)
+Mjob = sampleData %>%
+select(M_job)%>%
+count(M_job)
+Mjob
+pie(Mjob$n, labels=paste(Mjob$M_job,":",Mjob$n),
+main="Pie Chart for Mom's Job", clockwise = TRUE)
+ggplot(hsc_athome, aes(x = HSC, y = count, fill = HSC)) +
+geom_bar(stat = "identity") +
+geom_text(aes(label=count), size=5) +
+scale_fill_manual(values = c("#9C27B0", "#03A9F4")) +
+labs(x = "HSC percentage", y = "Frequency",
+title = "Parents at_home affect Hsc_p marks") +
+coord_flip() + theme_minimal()
+FamSup = sampleData %>%
+select(FamSup,Address)%>%
+count(FamSup,Address)
+FamSup
+ggplot(FamSup, aes(x = FamSup, y = n)) +
+geom_segment(aes(x=FamSup, xend=FamSup, y=0, yend=n, color=Address), linewidth=2) +
+geom_point(size = 10, color = "gray") +
+geom_text(aes(label = n)) +
+labs(title = "Lollipop Chart for Family Support by Address",
+x = "Family Support", y = "Count", color = "Address") + facet_wrap(~Address) +
+theme_minimal()
+hsB = sampleData %>%
+select(Hsc_b,Address)%>%
+count(Hsc_b,Address)
+hsB
+ggplot(hsB, aes(x=Hsc_b, y=n, fill=Address)) +
+geom_bar(position="dodge", stat="identity") + geom_text(aes(label=n)) +
+labs(title = "Board of Higher Secondary Education Based On Address",
+x = "Higher Education Board", y = "Frequency") +
+scale_fill_manual(values = c("#90A4AE", "#607D8B"))
+geom_violin(aes(fill = P_edu)) +
+geom_boxplot(width=0.2, fill="white") +
+scale_fill_manual(values=c("#9575CD"), name="Parents Edu", labels=c("MBA &")) +
+stat_summary(fun = "mean", geom = "point", shape = 18, size = 3, color = "red") +
+stat_summary(fun = "mean", geom = "text", aes(label = paste0("Mean: ", round(mean_Val, 2))), vjust = -1.5) +
+stat_summary(fun.data = "mean_sdl", geom = "errorbar", width = 0.2, color = "black") +
+labs(x = "Parents Education", y = "MBA Marks", title = "Higher Education By Parents and MBA Percentage") +
+theme_bw() +
+theme(plot.title = element_text(hjust = 0.5))
+P_edu_high = P_edu%>%
+filter(P_edu == "High Education")
+P_edu_high
+summary(sampleData$MBA_p[sampleData$M_edu==4 & sampleData$F_edu==4])
+mean_Val = mean(subset(sampleData, M_edu==4 & F_edu == 4)$MBA_p)
+mean_Val
+ggplot(P_edu_high,aes(x = P_edu, y = MBA_p)) +
+geom_violin(aes(fill = P_edu)) +
+geom_boxplot(width=0.2, fill="white") +
+scale_fill_manual(values=c("#9575CD"), name="Parents Edu", labels=c("MBA &")) +
+stat_summary(fun = "mean", geom = "point", shape = 18, size = 3, color = "red") +
+stat_summary(fun = "mean", geom = "text", aes(label = paste0("Mean: ", round(mean_Val, 2))), vjust = -1.5) +
+stat_summary(fun.data = "mean_sdl", geom = "errorbar", width = 0.2, color = "black") +
+labs(x = "Parents Education", y = "MBA Marks", title = "Higher Education By Parents and MBA Percentage") +
+theme_bw() +
+theme(plot.title = element_text(hjust = 0.5))
+df = sampleData %>%
+select(FamSup,Degree_sp,MBA_sp)%>%
+count(FamSup,Degree_sp,MBA_sp)
+df
+ggplot(df, aes(x = MBA_sp, y = Degree_sp, size = n, color=n)) +
+geom_point(alpha = 0.7) +
+scale_size(range = c(3, 12)) +
+scale_color_viridis_c(option = "C") +
+geom_text(aes(label=n), size=4, color="black") +
+labs(title = "Family Suppot On Degree Field and Master Specialism",
+x = "MBA Specialism", y = "Degree Course",
+size = "Freq", color = "Freq") +
+facet_wrap(~FamSup) +
+theme_bw()
+pie3D(c(total_yes, total_no),
+labels = c(paste0("Yes: ", pct_yes),
+paste0("No: ", pct_no)),
+main = "Impact on high MBA marks with or without family support",
+col = c("#FF006E", "#607D8B"))
+deg_supp=data.frame(Labels = c("Yes", "No"),
+Values = c(yesSup, noSup),
+Type = c(rep("Support", length(yesSup)), rep("No Support", length(noSup))))
+ggplot(deg_supp, aes(x=Labels, y=Values, fill=Type)) +
+geom_bar(stat="identity", position=position_dodge()) +
+geom_text(aes(label=c(yesSup,noSup))) +
+labs(title = "Effects on high Degree marks with or without family support",
+x = "Family Support", y = "Count") +
+scale_fill_manual(values = c("#607D8B", "#FF006E"))
+mbaMarks = sampleData %>%
+select(MBA_p) %>%
+mutate(mba_marks = ifelse(MBA_p >= 75,"High MBA_p","Low MBA_p"))%>%
+count(mba_marks)
+mbaMarks
+pie(mbaMarks$n, labels=paste(mbaMarks$mba_marks,":",mbaMarks$n),
+main = "MBA Percentage Distribution", col=c("#ABB8C3","#00D084"),
+clockwise=TRUE)
+# Calculate percentage of High MBA_p
+pct_high_mba = percent(mbaMarks$n[mbaMarks$mba_marks == "High MBA_p"]/sum(mbaMarks$n), accuracy = 0.01)
+pct_high_mba
+# Calculate percentage of Low MBA_p
+pct_low_mba = percent(mbaMarks$n[mbaMarks$mba_marks == "Low MBA_p"]/sum(mbaMarks$n), accuracy = 0.01)
+pct_low_mba
+data1 = sampleData %>%
+select(Gender,MBA_p)%>%
+count(Gender,MBA_p)
+data1
+ggplot(data1, aes(x=MBA_p, y=n, fill=n)) +
+geom_bar(position="dodge", stat="identity") + geom_text(aes(label=n)) +
+labs(title = "Relationship Among Gender And MBA Marks ",
+x = "MBA Marks", y = "Frequency") +
+facet_wrap(~Gender)
+summary(sampleData$MBA_p[sampleData$Gender=="M"])
+summary(sampleData$MBA_p[sampleData$Gender=="F"])
+data = sampleData %>%
+select(Age,MBA_p)%>%
+count(Age,MBA_p)
+data
+ggplot(data,aes(x=MBA_p, y=n)) +
+geom_point(aes(color=Age)) +
+scale_color_gradient("Age", low="green", high="red") +
+labs(title = "Correlation Between Student Age and MBA Marks",
+x = "MBA Marks in Percentage", y = "Frequency")
+#Average Marks for Age
+sampleData %>%
+group_by(Age)%>%
+summarise(AverageMarks=mean(MBA_p))%>%
+arrange(desc(AverageMarks))
+ggplot(ageMBA, aes(x=ageGroup, y=count)) +
+geom_segment(aes(x=ageGroup, xend=ageGroup, y=0, yend=count,color=ageGroup),
+linewidth=3) +
+geom_point(size = 13, color ="#1A237E") +
+geom_text(aes(label = count), color="white") +
+labs(title = "Relationship Between High MBA marks and Age",
+x = "Age Group", y = "Number of Students Get Marks >= 75%") +
+scale_color_manual(values = c("#FFC56F","#FF8A65"))
+ggplot(sampleData, aes(x=Address, y=MBA_p, fill=Address)) +
+geom_boxplot() +
+stat_summary(fun.y = mean, geom = "point", shape = 18, size = 4, color = "white", show.legend = FALSE) +
+stat_summary(fun.y = mean, geom = "text", vjust = -1, size = 4, color = "black", show.legend = FALSE,
+aes(label = round(..y.., digits = 2))) +
+labs(x='Address Area', y='MBA Percentage',
+title='Distribution of MBA Marks by Address') +
+scale_fill_manual(values = c("#00BCD4", "#FF6900"))
+data3 = sampleData %>%
+select(MBA_p,Ssc_p)%>%
+count(MBA_p,Ssc_p)
+data3
+ggplot(sampleData,aes(x=MBA_p,y=Ssc_p)) +
+geom_point(aes(shape=factor(Gender), colour=factor(Gender))) +
+geom_smooth(mapping = aes(x=MBA_p, y=Ssc_p)) +
+labs(x='MBA Percentage', y='Secondary Percentage',
+title='Corresponding of MBA Marks and Secondary marks')
+deg_mba = sampleData %>%
+select(Degree_p,MBA_p)%>%
+mutate(deg_mba = ifelse(Degree_p >= 75,"High Degree_p","Low Degree_p"))
+count(deg_mba,MBA_p)
+deg_mba
+h_deg_mba = deg_mba %>%
+select(deg_mba, MBA_p) %>%
+filter(deg_mba == "High Degree_p") %>%
+count(deg_mba, MBA_p)
+h_deg_mba
+ggplot(h_deg_mba,aes(x=MBA_p, y=n)) +
+geom_point(aes(color=n)) +
+scale_color_gradient("Count", low="orange", high="blue") +
+labs(title = "Correlation Between High Degree Marks and MBA Marks",
+x = "MBA Marks in Percentage", y = "Frequency")
+mba = sampleData %>%
+select(MBA_sp, MBA_p) %>%
+mutate(mba_marks = ifelse(MBA_p >= 75,"High MBA_p","Low MBA_p"))%>%
+count(mba_marks, MBA_sp)
+mba
+ggplot(mba, aes(x=n, y=mba_marks, fill=MBA_sp)) +
+geom_col() +
+geom_text(aes(label=n), color="white", position=position_stack(vjust=0.5)) +
+labs(x='Frequency', y='MBA Marks',
+title='Relationship between MBA Specialism and MBA Percentage') +
+scale_fill_manual(values=c('#64B5F6', '#0D47A1')) +
+theme_light()
+ggplot(sampleData, aes(x=Paid_Class, y=MBA_p, color=Paid_Class)) +
+geom_boxplot() +
+stat_summary(fun.y = mean, geom = "point", shape = 18, size = 4, color = "black", show.legend = FALSE) +
+stat_summary(fun.y = mean, geom = "text", vjust = -1, size = 4, color = "black", show.legend = FALSE,
+aes(label = round(..y.., digits = 2))) +
+labs(x='Paid Class', y='MBA Percentage',
+title='Relationship between Paid Class and MBA Marks') +
+theme_bw()
+ggplot(sampleData,aes(x = Internet, y = MBA_p)) +
+geom_violin(aes(fill = Internet)) +
+scale_fill_manual(values=c("#4CAF50", "#2196F3"), name="Address", labels=c("no", "yes")) +
+stat_summary(fun = "mean", geom = "point", shape = 18, size = 3, color = "white", fill = "white") +
+stat_summary(fun = "mean", geom = "text", aes(label = paste0("Mean: ", round(..y.., 2))), vjust = -1.5) +
+stat_summary(fun.data = "mean_sdl", geom = "errorbar", width = 0.2, color = "black") +
+labs(x = "Internet Access", y = "MBA Percentage", title = "Relationship between Internet and MBA Marks") +
+theme_bw() +
+theme(plot.title = element_text(hjust = 0.5))
+sampleData$F_edu_cat = factor(sampleData$F_edu, levels=0:4,
+labels=c("0","1","2","3","4"))
+fedu_mba = sampleData %>%
+select(F_edu_cat, MBA_p) %>%
+mutate(mba_marks = ifelse(MBA_p >= 75,"High MBA_p","Low MBA_p"))%>%
+count(mba_marks, F_edu_cat)
+fedu_mba
+ggplot(fedu_mba, aes(x=F_edu_cat, y=n)) +
+geom_segment(aes(x=F_edu_cat, xend=F_edu_cat, y=0, yend=n,color=F_edu_cat),
+linewidth=3) +
+geom_point(size = 13, color ="#455A64") +
+geom_text(aes(label = n), color="white") +
+labs(title = "Relationship Between Father's Education Level and MBA marks",
+x = "Father's Education Level", y = "Number of Students") +
+scale_color_manual(values = c("#D32F2F","#FF6F00","#7B1FA2","#388E3C","#2196F3"))+
+facet_wrap(~mba_marks)
+medu_mba = sampleData %>%
+select(M_edu_cat, MBA_p) %>%
+mutate(mba_marks = ifelse(MBA_p >= 75,"High MBA_p","Low MBA_p"))%>%
+count(mba_marks, M_edu_cat)
+medu_mba
+ggplot(medu_mba, aes(x = M_edu_cat, y = n, size = n, color = M_edu_cat)) +
+geom_point() +
+scale_size(range = c(5, 10)) +
+geom_text(aes(label = n), size=4, color="white") +
+labs(title = "Relation of Mother's Education Level and MBA marks",
+x = "Mother's Education Level", y = "Frequency") +
+scale_color_manual(values = c("#0288D1","#7B1FA2","#303F9F","#0097A7","#D32F2F")) +
+facet_wrap(~mba_marks) +
+theme_dark()
+salary_df = sampleData %>%
+select(Salary) %>%
+filter(Salary != "NA") %>%
+count(Salary)
+salary_df
+ggplot(salary_df, aes(x = Salary, y = n)) +
+geom_bar(stat = "identity", fill = "#90A4AE") +
+geom_text(aes(label = n)) +
+labs(title = "Distribution of Salary", x = "Salary Amount", y = "Count") +
+theme_light()
+age_df = sampleData %>%
+select(Age_cat,Salary)%>%
+filter(Salary != "NA") %>%
+count(Age_cat,Salary)
+age_df
+#Stacked Bar Chart
+ggplot(age_df, aes(x = Salary, y = n, fill = Age_cat)) +
+geom_bar(stat = "identity", position = position_stack(reverse = TRUE)) +
+geom_text(aes(label = n), position = position_stack(vjust = 0.5, reverse = TRUE)) +
+labs(title = "Distribution of Salary by Age Group", x = "Salary Amount", y = "Frequency") +
+scale_fill_manual(values=c("#FF2222", "#FF5A18", "#FCCB00", "#008B02", "#1273DE", "#7B1FA2")) +
+coord_flip() +
+theme_light()
+address_df = sampleData %>%
+select(Address, Salary) %>%
+filter(Salary != "NA") %>%
+count(Address, Salary)
+address_df
+ggplot(address_df, aes(x = Salary, y = n, color = Address, group=Address)) +
+geom_line(aes(color=Address), size = 1) +
+geom_point(aes(color=Address),size = 2) +
+labs(title = "Distribution of Salary and Address",
+x = "Salary", y = "Frequency") +
+theme_bw() +
+theme(legend.position = "top",  # Move the legend to the top
+plot.title = element_text(hjust = 0.5))  # Center the plot title
+gender_df = sampleData %>%
+select(Gender, Salary) %>%
+filter(Salary != "NA") %>%
+count(Gender, Salary)
+gender_df
+ggplot(gender_df, aes(x = Gender, y = Salary, size = n, color = Gender)) +
+geom_point(aes(color = Gender),alpha = 0.8) +
+geom_text(aes(label = n), size = 3.5, color = "black") +
+scale_size(range = c(1, 15)) +
+labs(title = "Bubble Chart for Gender and Salary",
+x = "Gender", y = "Salary",
+color = "Gender", size = "Frequency")
+etest_df = sampleData %>%
+select(eTest_status, Salary) %>%
+filter(Salary != "NA") %>%
+count(eTest_status, Salary)
+etest_df
+#Stacked Bar Chart
+ggplot(etest_df, aes(x = Salary, y = n, fill = eTest_status)) +
+geom_bar(stat = "identity", position = position_stack(reverse = TRUE)) +
+geom_text(aes(label = n), position = position_stack(vjust = 0.6, reverse = TRUE)) +
+labs(title = "Distribution of Salary by Employment Test",
+x = "Salary Amount", y = "Frequency") +
+scale_fill_manual(values=c("#009688", "#F44336")) +
+theme_minimal()
+degSp_df = sampleData %>%
+select(Degree_sp, salary_num) %>%
+filter(!is.na(salary_num)) %>%
+count(Degree_sp, salary_num)
+degSp_df
+ggplot(sampleData, aes(x = Degree_sp, y = salary_num, fill=Degree_sp)) +
+geom_boxplot() +
+scale_y_continuous(labels = scales::label_number_si(scale = 1e-3, suffix = "k")) +
+labs(x = "Degree Course", y = "Salary",
+title="Relationship between degree course taken and salary") +
+stat_summary(fun.y = mean, geom = "point", shape = 18, size = 4, color = "black", show.legend = FALSE) +
+stat_summary(fun.y = mean, geom = "text", vjust = -1, size = 4, color = "black", show.legend = FALSE,
+aes(label = round(after_stat(y)))) +
+theme_bw() +
+stat_boxplot(geom = "errorbar", width = 0.5, coef = 1.5)
+mbaSp_df = sampleData %>%
+select(MBA_sp, salary_num) %>%
+filter(!is.na(salary_num)) %>%
+count(MBA_sp, salary_num)
+mbaSp_df
+ggplot(mbaSp_df, aes(x = salary_num, y = n, color = MBA_sp)) +
+geom_line(size = 1) +
+geom_point(size = 1.5) +
+# Use k format for x-axis labels
+scale_x_continuous(labels = scales::label_number_si(scale = 1e-3, suffix = "k")) +
+labs(title = "Distribution of Salary and MBA Specialism",
+x = "Salary", y = "Frequency") +
+theme(legend.position = "top",
+plot.title = element_text(hjust = 0.5)) +
+theme_light()
+mbap_df = sampleData %>%
+select(MBA_p, Salary) %>%
+filter(Salary != "NA") %>%
+mutate(mba_marks = ifelse(MBA_p>=75,"High MBA_p","Low MBA_p"))%>%
+count(mba_marks, Salary)
+mbap_df
+ggplot(mbap_df, aes(x=Salary, y=n, fill=mba_marks)) +
+geom_bar(position="dodge", stat="identity") +
+geom_text(aes(label=n), position=position_dodge(0.9)) +
+labs(title = "Relationship Between MBA marks and Salary",
+x = "Salary", y = "Frequency") +
+scale_fill_manual(values = c("#FF5722", "#0D47A1"))
+mba_df = sampleData %>%
+select(Degree_sp, MBA_sp, Salary) %>%
+filter(Salary != "NA") %>%
+count(Degree_sp, MBA_sp,Salary)
+mba_df
+ggplot(mba_df, aes(x = MBA_sp, y = Salary, size = n, color = MBA_sp)) +
+geom_point(aes(color = MBA_sp),alpha = 0.7) +
+geom_text(aes(label = n), size = 3.5, color = "black") +
+scale_size(range = c(2, 15)) +
+labs(title = "Connection among MBA and Degree Specialism with Salary",
+x = "MBA Specialism", y = "Salary",
+color = "MBA_sp", size = "Frequency") +
+scale_color_manual(values=c("#9C27B0","#A1887F")) +
+facet_wrap(~Degree_sp) + theme_light()
+workex_df = sampleData %>%
+select(Work_ex, salary_num) %>%
+filter(!is.na(salary_num)) %>%
+count(Work_ex, salary_num)
+workex_df
+ggplot(workex_df, aes(x = salary_num, y = n, color = Work_ex)) +
+geom_point(size = 3) +
+geom_line(size = 1) +
+scale_color_manual(values = c("red", "blue")) +
+# Use k format for x-axis labels
+scale_x_continuous(labels = scales::label_number_si(scale = 1e-3, suffix = "k")) +
+labs(title = "Connection among Working experience and Salary",
+x = "Salary", y = "Frequency") +
+theme_light()
+activity_df = sampleData %>%
+select(Activities)%>%
+count(Activities)
+# Get total students
+total = sum(activity_df$n)
+# Calculate percentage% value
+activity_df$percentage = round(activity_df$n/total *100,2)
+activity_df
+pie(activity_df$n, labels=paste(activity_df$Activities,":",activity_df$percentage,"%"),
+main="Activities Distribution",col=c("#FF5722","#4C4C4C"))
+act_stat = sampleData %>%
+select(Activities,Status)%>%
+count(Activities,Status)
+act_stat
+ggplot(act_stat,aes(x = Activities, y = n, fill = Status)) +
+geom_bar(stat = 'identity') + geom_text(aes(label=n)) +
+labs(x='Activities Participation', y='Frequency',
+title='Correlation Between Placement Status and Activities') +
+scale_fill_manual(values=c('#FFEAA9', '#2D6686'), name='Status') +
+facet_wrap(~Status)
+act_salary = sampleData %>%
+select(Activities, Salary) %>%
+filter(Salary != "NA") %>%
+count(Activities, Salary)
+act_salary
+ggplot(act_salary, aes(x=Salary, y=n, color=Activities)) +
+geom_segment(aes(x=Salary, xend=Salary, y=0, yend=n, color=Activities),
+linewidth = 1) +
+geom_point(size = 2, color ="white") +
+geom_text(aes(label = n), color="black") +
+labs(title = "Relationship Between Salary and Activities",
+x = "Salary", y = "Frequency") +
+scale_color_manual(values = c("red","purple"))+
+facet_wrap(~Activities) + coord_flip() +
+theme_bw()
+paidClass = sampleData %>%
+select(Paid_Class)%>%
+count(Paid_Class)
+# Get total students
+total = sum(paidClass$n)
+# Calculate percentage% value
+paidClass$percentage = round(paidClass$n/total *100,2)
+paidClass
+pie(paidClass$n, labels=paste(paidClass$Paid_Class,":",paidClass$percentage,"%"),
+main="Paid Class Distribution",col=c("#0D47A1","#00BCD4"), clockwise = TRUE)
+paidC_stat = sampleData %>%
+select(Paid_Class, Status) %>%
+count(Paid_Class, Status)
+paidC_stat
+ggplot(paidC_stat, aes(x = Paid_Class, y = Status, size = n, color = Paid_Class)) +
+geom_point(aes(color = Paid_Class),alpha = 0.8) +
+geom_text(aes(label = n), size = 3.5, color = "black") +
+scale_size(range = c(12, 15)) +
+labs(title = "Bubble Chart for Paid Class and Status",
+x = "Paid_Class", y = "Status",
+color = "Paid_Class", size = "Frequency")
+sampleData %>%
+select(Paid_Class, salary_num) %>%
+filter(!is.na(salary_num)) %>%
+count(Paid_Class, salary_num)
+ggplot(sampleData, aes(x = Paid_Class, y = salary_num, fill=Paid_Class)) +
+geom_boxplot() +
+scale_y_continuous(labels = scales::label_number_si(scale = 1e-3, suffix = "k")) +
+labs(x = "Paid_Class", y = "Salary",
+title="Relationship between Paid Class and Salary") +
+stat_summary(fun.y = mean, geom = "point", shape = 18, size = 4,
+color = "white", show.legend = FALSE) +
+stat_summary(fun.y = mean, geom = "text", vjust = -1, size = 4,
+color = "black", show.legend = FALSE,
+aes(label = round(after_stat(y)))) +
+stat_boxplot(geom = "errorbar", width = 0.5, coef = 1.5) +
+theme_bw()
+internet_df = sampleData %>%
+select(Internet)%>%
+count(Internet)
+# Get total students
+total = sum(internet_df$n)
+# Calculate percentage% value
+internet_df$percentage = round(internet_df$n/total *100,2)
+internet_df
+pie(internet_df$n, labels=paste(internet_df$Internet,":",internet_df$percentage,"%"),
+main="Internet Distribution",col=c("#333333","#9C27B0"), clockwise = TRUE)
+internet_stat = sampleData %>%
+select(Internet,Status)%>%
+count(Internet,Status)
+internet_stat
+ggplot(internet_stat, aes(x=Internet, y=n)) +
+geom_segment(aes(x=Internet, xend=Internet, y=0, yend=n, color = Internet),
+linewidth = 2) +
+geom_point(size = 11, color ="#1A237E") +
+geom_text(aes(label = n), color="white") +
+labs(title = "Relationship Between Internet and Placement Status",
+x = "Internet Access", y = "Frequency") +
+scale_color_manual(values = c("#333333","#9C27B0"))+
+facet_wrap(~Status)
+internet_salary = sampleData %>%
+select(Internet, salary_num) %>%
+filter(!is.na(salary_num)) %>%
+count(Internet, salary_num)
+internet_salary
+ggplot(internet_salary, aes(x = salary_num, y = n, color = Internet)) +
+geom_point(size = 2) +
+geom_line(size = 1) +
+scale_color_manual(values = c("#333333", "#9C27B0")) +
+# Use k format for x-axis labels
+scale_x_continuous(labels = scales::label_number_si(scale = 1e-3, suffix = "k")) +
+labs(title = "Relationship between Internet and Salary",
+x = "Salary", y = "Frequency") +
+theme_light()
